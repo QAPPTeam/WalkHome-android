@@ -205,6 +205,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public LatLng initLocation(GoogleMap googleMap) {
         mMap = googleMap;
         LocationManager service = (LocationManager) getSystemService(LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            service.requestSingleUpdate(service.getBestProvider(new Criteria(), true), locationListener, null);
+        }
         Criteria criteria = new Criteria();
         String provider = service.getBestProvider(criteria, false);
         Location location;
