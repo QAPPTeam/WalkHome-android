@@ -131,8 +131,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             bounds.strokeColor(Color.BLACK);
             //add the polygon to the map
             googleMap.addPolygon(bounds);
+            if (userLocation == null) {
+                Toast.makeText(getApplicationContext(), "Undefined user location", Toast.LENGTH_LONG);
+            }
             //checks if the user's location is within the walkhome range
-            if (PolyUtil.containsLocation(userLocation, bounds.getPoints(), false)) {
+            else if (PolyUtil.containsLocation(userLocation, bounds.getPoints(), false)) {
 
 
 
@@ -205,13 +208,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public LatLng initLocation(GoogleMap googleMap) {
         mMap = googleMap;
         LocationManager service = (LocationManager) getSystemService(LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            service.requestSingleUpdate(service.getBestProvider(new Criteria(), true), locationListener, null);
+        String provider = service.getBestProvider(new Criteria(), true);
+        if (provider == null) {
+            return null;
         }
-        Criteria criteria = new Criteria();
-        String provider = service.getBestProvider(criteria, false);
-        Location location;
-        location = getLastKnownLocation();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            service.requestSingleUpdate(provider, locationListener, null);
+        }
+        Location location = getLastKnownLocation();
+        if(location == null) {
+            return null;
+        }
         LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
         mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(16));
@@ -244,6 +251,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Location getLastKnownLocation() {
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         List<String> providers = locationManager.getProviders(true);
+        if(providers == null) {
+            return null;
+        }
         Location bestLocation = null;
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             for (String provider : providers) {
