@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">WHome</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="hint_input">Input</string>
+    <string name="message_WHOME">Message them</string>
+    <string name="confirm_text">CONFIRM</string>
+    <string name="cancel_text">CANCEL</string>
+    <string name="request">request</string>
+    <string name="call">call us</string>
+    <string name="requested_waiting">REQUESTED...</string>
+</resources>
