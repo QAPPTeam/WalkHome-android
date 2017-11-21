@@ -7,5 +7,8 @@
     <string name="cancel_text">CANCEL</string>
     <string name="request">request</string>
     <string name="call">call us</string>
-    <string name="requested_waiting">REQUESTED...</string>
+    <string name="requested_waiting">REQUESTED&#8230;</string>
+    <string name="not_running">Walkhome is not running at this area.</string>
+    <string name = "check_map">Check the map below to see how far we can get!</string>
+    <string name="bounds_image_desc">An image displaying locations Walkhome services</string>
 </resources>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:layout_marginTop="-8dp"
+        android:id="@+id/out_of_bounds_picture"
+        android:layout_width="wrap_content"
+        android:padding="0dp"
+        android:layout_height="252dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:contentDescription="@string/bounds_image_desc"
+        android:src="@drawable/mappic" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_above="@id/out_of_bounds_picture">
+        <TextView
+            android:id="@+id/outBoundsText"
+            android:background="@color/rickyRed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/not_running"
+            android:textColor="@color/white"
+            android:textSize="17sp" />
+        <TextView
+            android:id="@+id/supporting_bounds_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/rickyRed"
+            android:text="@string/check_map"
+            android:textColor="@color/rickyGrey"
+            android:textSize="12sp" />
+    </LinearLayout>
+</RelativeLayout>
