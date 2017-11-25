@@ -1,6 +1,7 @@
 package com.example.bassi.whome;
 
 import android.Manifest;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.pm.PackageManager;
@@ -97,10 +98,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         };
         buttonManager = new RequestButtons();
-        RequestButtons fragment = new RequestButtons();
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fragment_container, fragment);
+        fragmentTransaction.add(R.id.fragment_container, buttonManager);
         fragmentTransaction.commit();
     }
 
@@ -119,6 +119,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         System.out.println("WOWOWOWOWOWOWOWOWOW");
         getPermissions(googleMap);
 
+
+
+
+
         LatLng userLocation = initLocation(googleMap);
         //THIS CHECKS THE TIME!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         if (!checkTime()) {
@@ -132,11 +136,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             //add the polygon to the map
             googleMap.addPolygon(bounds);
             if (userLocation == null) {
-                Toast.makeText(getApplicationContext(), "Undefined user location", Toast.LENGTH_LONG);
+                Toast.makeText(getApplicationContext(), "Undefined user location", Toast.LENGTH_LONG).show();
             }
             //checks if the user's location is within the walkhome range
-            else if (PolyUtil.containsLocation(userLocation, bounds.getPoints(), false)) {
-
+            else if (!PolyUtil.containsLocation(userLocation, bounds.getPoints(), false)) {
+                OutOfBounds outbounds = new OutOfBounds();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container, outbounds);
+                transaction.commit();
 
 
             }
@@ -208,7 +215,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public LatLng initLocation(GoogleMap googleMap) {
         mMap = googleMap;
         LocationManager service = (LocationManager) getSystemService(LOCATION_SERVICE);
-        String provider = service.getBestProvider(new Criteria(), true);
+        String provider = null;
+        if (service != null) {
+            provider = service.getBestProvider(new Criteria(), true);
+        }
         if (provider == null) {
             return null;
         }
@@ -250,7 +260,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
     private Location getLastKnownLocation() {
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        List<String> providers = locationManager.getProviders(true);
+        List<String> providers = null;
+        if (locationManager != null) {
+            providers = locationManager.getProviders(true);
+        }
         if(providers == null) {
             return null;
         }
