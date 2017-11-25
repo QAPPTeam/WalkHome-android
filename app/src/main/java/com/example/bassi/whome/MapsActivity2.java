@@ -20,7 +20,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -71,8 +73,8 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        Button msgThem = (Button)findViewById(R.id.msgThemButton);
-        listView = (ListView) findViewById(R.id.matchStudents);
+        RelativeLayout msgThem = findViewById(R.id.relativeLayout2);
+        listView = findViewById(R.id.matchStudents);
         msgThem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,7 +83,7 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
             }
         });
 
-        matchStudents = new ArrayList<String>();
+        matchStudents = new ArrayList<>();
 
         matchStudents.add("Bob");
         matchStudents.add("Alice");

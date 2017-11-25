@@ -120,17 +120,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         getPermissions(googleMap);
 
 
-        // temp all the time
-        OutOfBounds outbounds = new OutOfBounds();
-        FragmentTransaction fragtran = getFragmentManager().beginTransaction();
 
-        // Replace whatever is in the fragment_container view with this fragment,
-        // and add the transaction to the back stack
-        fragtran.replace(R.id.fragment_container, outbounds);
-        fragtran.addToBackStack(null);
-        // Commit the transaction
-        fragtran.commit();
-        //end temp all the time
 
 
         LatLng userLocation = initLocation(googleMap);
@@ -149,15 +139,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Toast.makeText(getApplicationContext(), "Undefined user location", Toast.LENGTH_LONG).show();
             }
             //checks if the user's location is within the walkhome range
-            else if (PolyUtil.containsLocation(userLocation, bounds.getPoints(), false)) {
-                OutOfBounds newFragment = new OutOfBounds();
+            else if (!PolyUtil.containsLocation(userLocation, bounds.getPoints(), false)) {
+                OutOfBounds outbounds = new OutOfBounds();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
-                // Replace whatever is in the fragment_container view with this fragment,
-                // and add the transaction to the back stack
-                transaction.replace(R.id.fragment_container, newFragment);
-                transaction.addToBackStack(null);
-                // Commit the transaction
+                transaction.replace(R.id.fragment_container, outbounds);
                 transaction.commit();
 
 
